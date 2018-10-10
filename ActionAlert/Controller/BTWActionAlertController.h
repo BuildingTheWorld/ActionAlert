@@ -31,8 +31,9 @@ typedef void(^BTWAlertCDidRemoveBlock)(void);
 
  @param actionTitles action字符串数组
  @param selectStyle actionCell selectStyle
+ @param defaultIndex 使用 CSActionSelectStyleCheckmark 样式时, 默认选中的 index
  */
-- (instancetype)initWithActionTitleArray:(NSArray<NSString *> *)actionTitles actionSelectStyle:(BTWActionSelectStyle)selectStyle;
+- (instancetype)initWithActionTitleArray:(NSArray<NSString *> *)actionTitles actionSelectStyle:(CSActionSelectStyle)selectStyle defaultSelectIndex:(NSInteger)defaultIndex;
 
 /**
  初始化 有title 的 alert
@@ -40,9 +41,9 @@ typedef void(^BTWAlertCDidRemoveBlock)(void);
  @param title alert 的 title
  @param actionTitles action 的字符串数组
  @param selectStyle actionCell selectStyle
+ @param defaultIndex 使用 CSActionSelectStyleCheckmark 样式时, 默认选中的 index
  */
-- (instancetype)initWithTitle:(NSString *)title actionTitleArray:(NSArray<NSString *> *)actionTitles actionSelectStyle:(BTWActionSelectStyle)selectStyle;
-
+- (instancetype)initWithTitle:(NSString *)title actionTitleArray:(NSArray<NSString *> *)actionTitles actionSelectStyle:(CSActionSelectStyle)selectStyle defaultSelectIndex:(NSInteger)defaultIndex;
 /**
  展示 alert
  */

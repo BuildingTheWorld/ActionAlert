@@ -29,6 +29,7 @@ static NSString * const kCSActionAlertCellID = @"kCSActionAlertCellID";
     BTWActionSelectStyle _selectStyle;
     BOOL _isHasTitle;
     NSString *_titleText;
+    NSInteger _defaultIndex;
 }
 
 @property (nonatomic, strong) UITableView *actionTableView;
@@ -41,27 +42,29 @@ static NSString * const kCSActionAlertCellID = @"kCSActionAlertCellID";
 
 #pragma mark - init
 
-- (instancetype)initWithActionTitleArray:(NSArray<NSString *> *)actionTitles actionSelectStyle:(BTWActionSelectStyle)selectStyle
+- (instancetype)initWithActionTitleArray:(NSArray<NSString *> *)actionTitles actionSelectStyle:(CSActionSelectStyle)selectStyle defaultSelectIndex:(NSInteger)defaultIndex
 {
     if (self = [self initWithTitle:nil
                   actionTitleArray:actionTitles
                   actionCellHeight:kNoTitleCellHeight
                 separatorLineWidth:kNoSeparatorLineWidth
-                 actionSelectStyle:selectStyle]) {
-        
+                 actionSelectStyle:selectStyle
+                defaultSelectIndex:defaultIndex]) {
+
         _vcViewWidth = kNoTitleVCWidth;
     }
     return self;
 }
 
-- (instancetype)initWithTitle:(NSString *)title actionTitleArray:(NSArray<NSString *> *)actionTitles actionSelectStyle:(BTWActionSelectStyle)selectStyle
+- (instancetype)initWithTitle:(NSString *)title actionTitleArray:(NSArray<NSString *> *)actionTitles actionSelectStyle:(CSActionSelectStyle)selectStyle defaultSelectIndex:(NSInteger)defaultIndex
 {
     if (self = [self initWithTitle:title
                   actionTitleArray:actionTitles
                   actionCellHeight:kHasTitleCellHeight
                 separatorLineWidth:kHasSeparatorLineWidth
-                 actionSelectStyle:selectStyle]) {
-        
+                 actionSelectStyle:selectStyle
+                defaultSelectIndex:defaultIndex]) {
+
         _vcViewWidth = kHasTitleVCWidth;
     }
     return self;
@@ -72,6 +75,7 @@ static NSString * const kCSActionAlertCellID = @"kCSActionAlertCellID";
              actionCellHeight:(CGFloat)cellH
            separatorLineWidth:(CGFloat)lineWidth
             actionSelectStyle:(BTWActionSelectStyle)selectStyle
+           defaultSelectIndex:(NSInteger)defaultIndex
 {
     if (self = [super init]) {
         
@@ -92,6 +96,11 @@ static NSString * const kCSActionAlertCellID = @"kCSActionAlertCellID";
         _cellHeight = cellH;
         _separatorLineWidth = lineWidth;
         _selectStyle = selectStyle;
+        
+        if (_selectStyle == CSActionSelectStyleCheckmark) {
+            _defaultIndex = defaultIndex;
+        }
+
     }
     return self;
 }
@@ -174,6 +183,14 @@ static NSString * const kCSActionAlertCellID = @"kCSActionAlertCellID";
 {
     BTWActionAlertCell *cell = [tableView dequeueReusableCellWithIdentifier:kCSActionAlertCellID forIndexPath:indexPath];
     
+    if (_selectStyle == CSActionSelectStyleCheckmark) {
+        if (indexPath.row == _defaultIndex) {
+            cell.cheakCell = YES;
+        } else {
+            cell.cheakCell = NO;
+        }
+    }
+    
     cell.actionText = self.modalArray[indexPath.row];
     cell.bottomLineWidth = _separatorLineWidth;
     cell.showDefaultSelectStyle = (_selectStyle == BTWActionSelectStyleGrey) ? YES : NO;
@@ -200,11 +217,21 @@ static NSString * const kCSActionAlertCellID = @"kCSActionAlertCellID";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [self disappearAlert];
+    __weak typeof(self) weakSelf = self;
     
-    if (self.actionSelectBlock) {
-        self.actionSelectBlock(indexPath.row);
-    }
+    [self dismissViewControllerAnimated:YES completion:^{
+        
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        
+        if (strongSelf.actionSelectBlock) {
+            strongSelf.actionSelectBlock(indexPath.row);
+        }
+        
+        if (strongSelf.alertCDidRemoveBlock) {
+            strongSelf.alertCDidRemoveBlock();
+        }
+    }];
+    
 }
 
 #pragma mark - UIViewControllerTransitioningDelegate

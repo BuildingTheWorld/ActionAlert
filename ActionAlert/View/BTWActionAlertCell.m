@@ -4,9 +4,6 @@
 //#import <Masonry.h>
 
 @interface BTWActionAlertCell ()
-{
-    BOOL _isShowCheakmark;
-}
 
 @property (nonatomic, strong) UILabel *actionLabel;
 @property (nonatomic, strong) UIView *bottomLine;
@@ -15,14 +12,6 @@
 @end
 
 @implementation BTWActionAlertCell
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-    
-    if (_isShowCheakmark == YES) {
-        self.cheakMarkImageView.hidden = selected ? NO : YES;
-    }
-}
 
 #pragma mark - init
 
@@ -92,10 +81,19 @@
         self.cheakMarkImageView.hidden = YES;
         self.selectionStyle = UITableViewCellSelectionStyleDefault;
     } else {
-        self.cheakMarkImageView.hidden = NO;
-        self.selectionStyle = UITableViewCellSelectionStyleNone;
+//        self.cheakMarkImageView.hidden = NO;
+//        self.selectionStyle = UITableViewCellSelectionStyleNone;
     }
 }
+
+- (void)setCheakCell:(BOOL)cheakCell
+{
+    _cheakCell = cheakCell;
+    
+    self.cheakMarkImageView.hidden = !cheakCell;
+}
+
+
 
 #pragma mark - lazy
 
