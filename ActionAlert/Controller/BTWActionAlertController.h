@@ -1,12 +1,11 @@
 
-
-#import "BTWFormSheetBaseViewController.h"
+#import <UIKit/UIKit.h>
 
 /**
  ActionCell选中样式
 
- - BTWActionSelectStyleGrey: UITableViewCellSelectionStyleDefault样式
- - BTWActionSelectStyleCheckmark: 对号样式
+ - ActionSelectStyleGrey: UITableViewCellSelectionStyleDefault样式
+ - ActionSelectStyleCheckmark: 对号样式
  */
 typedef NS_ENUM(NSUInteger, BTWActionSelectStyle) {
     BTWActionSelectStyleGrey,
@@ -21,11 +20,11 @@ typedef NS_ENUM(NSUInteger, BTWActionSelectStyle) {
 typedef void(^BTWActionSelectBlock)(NSInteger index);
 
 /**
- BTWActionAlertController 移除回调
+ ActionAlertController 移除回调
  */
 typedef void(^BTWAlertCDidRemoveBlock)(void);
 
-@interface BTWActionAlertController : BTWFormSheetBaseViewController
+@interface BTWActionAlertController : UIViewController
 
 /**
  初始化 无title 的 alert
@@ -47,12 +46,12 @@ typedef void(^BTWAlertCDidRemoveBlock)(void);
 /**
  展示 alert
  */
-- (void)showAlert;
+- (void)showAlertFromTargetViewController:(UIViewController *)targetViewController;
 
 /**
  移除 alert
  */
-- (void)removeAlert;
+- (void)disappearAlert;
 
 @property (nonatomic, strong) BTWActionSelectBlock actionSelectBlock;
 @property (nonatomic, strong) BTWAlertCDidRemoveBlock alertCDidRemoveBlock;

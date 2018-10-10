@@ -1,5 +1,4 @@
 
-
 #import "BTWActionAlertCell.h"
 
 //#import <Masonry.h>
@@ -53,7 +52,7 @@
 //        make.centerY.offset(0);
 //        make.right.offset(-20);
 //    }];
-    
+//
 }
 
 #pragma mark - setter
@@ -72,7 +71,7 @@
 //    [self.bottomLine mas_remakeConstraints:^(MASConstraintMaker *make) {
 //        make.width.offset(bottomLineWidth);
 //        make.centerX.offset(0);
-//        make.height.offset(1);
+//        make.height.offset(0.4);
 //        make.bottom.offset(0);
 //    }];
 }
@@ -110,7 +109,7 @@
 - (UIView *)bottomLine {
     if (_bottomLine == nil) {
         _bottomLine = [[UIView alloc] init];
-//        _bottomLine.backgroundColor = ;
+//        _bottomLine.backgroundColor = [UIColor colorWithRGB:0xD6D8DD];
     }
     return _bottomLine;
 }
@@ -118,7 +117,7 @@
 - (UIImageView *)cheakMarkImageView {
     if (_cheakMarkImageView == nil) {
         _cheakMarkImageView = [[UIImageView alloc] init];
-        _cheakMarkImageView.image = [UIImage imageNamed:@""];
+        _cheakMarkImageView.image = [UIImage imageNamed:@"icon_iPad_setting_selected.png"];
         _cheakMarkImageView.hidden = YES;
     }
     return _cheakMarkImageView;
