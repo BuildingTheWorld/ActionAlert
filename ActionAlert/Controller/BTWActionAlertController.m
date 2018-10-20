@@ -256,8 +256,8 @@ static NSString * const kCSActionAlertCellID = @"kCSActionAlertCellID";
     
     __weak typeof(self) weakSelf = self;
     
-    presentationVC.shouldDismissBlock = ^{
-        
+    presentationVC.didTapMaskViewBlock = ^{
+
         [weakSelf dismissViewControllerAnimated:YES completion:^{
             
             __strong typeof(weakSelf) strongSelf = weakSelf;
